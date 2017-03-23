@@ -1,5 +1,6 @@
 #!python
 
+
 def linear_search(array, item):
     """return the first index of item in array or None if item is not found"""
     # implement linear_search_iterative and linear_search_recursive below, then
