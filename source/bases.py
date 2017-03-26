@@ -23,10 +23,6 @@ def decode(str_num, base):
     exponent = len(bits) - 1
     # iterate through the separated_number and see which base each number is
     for bit in bits:
-    # for index in range(0, len(bits)):
-        # stores the bit value
-        # bit = bits[index]
-        # Converts the alphabet to the hex value
         if bit in list_of_alphabets:
             # getting the index value of the bit
             bit_index = list_of_alphabets.index(bit)
