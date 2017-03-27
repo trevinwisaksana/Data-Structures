@@ -15,10 +15,17 @@ def is_palindrome(text):
 
 
 def is_palindrome_iterative(text):
-    # TODO: implement the is_palindrome function iteratively here
-    pass
-    # once implemented, change is_palindrome to call is_palindrome_iterative
-    # to verify that your iterative implementation passes all tests
+    # check if the text is empty
+    if len(text) is 0:
+        return True
+    # first letter in the string
+    first_letter = text[0]
+    # last letter in the string
+    last_letter = text[-1]
+    # check if the first and last letter are the same
+    if first_letter is last_letter:
+        return True
+    return False
 
 
 def is_palindrome_recursive(text, left=None, right=None):
@@ -43,4 +50,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    print(is_palindrome_iterative('AB'))

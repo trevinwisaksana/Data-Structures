@@ -37,8 +37,8 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+    # return binary_search_iterative(array, item)
+    return binary_search_recursive(array, item)
 
 
 def binary_search_iterative(array, item):
@@ -49,8 +49,8 @@ def binary_search_iterative(array, item):
     # Check if the item in the middle is the item looked for
     middle_item = array[middle_index]
     # prevents the while-loop from looping infinitely
-    # somehow if an offset of two is not added, it won't run enough times
-    max_iteration = (upper_index % 2) + 2
+    # bit_length finds the number of times a value can be divided by two
+    max_iteration = upper_index.bit_length()
     # counts how many times the while-loop iterates
     iteration_count = 0
     # loops through to check if the item searched is in the array
@@ -63,9 +63,10 @@ def binary_search_iterative(array, item):
             middle_index /= 2
         # if the item has a greater ASCII value
         if item > middle_item:
-            # increment the middle_index by
+            # difference between the upper_index and the middle_index
+            difference = upper_index - middle_index
             # half of the difference between the upper_index and middle_index
-            middle_index += (upper_index - middle_index) / 2
+            middle_index += difference / 2
         # set the middle_item with the new middle_index value
         middle_item = array[middle_index]
     # checks if the middle item is the one looked for
@@ -75,22 +76,30 @@ def binary_search_iterative(array, item):
 
 
 def binary_search_recursive(array, item, left=None, right=None):
-    # TODO: implement binary search recursively here
-    # once implemented, change binary_search to call binary_search_recursive
-    # to verify that your recursive implementation passes all tests below
-    # Retrieving the index value of the item in the middle
-    middle_index = len(array) / 2
-    # retrieving the middle item
-    item_searched = array[middle_index]
-    # checking if the middle item is the right item
-    if item is item_searched:
-        return middle_index
-    if item < item_searched:
-        pass
-    else:
-        pass
+    # contains the highest value of the sliced array
+    right = len(array)
+    # contains the lowest value of the sliced array
+    left = 0
+    # Retrieving the index value of the item in the middle of the array
+    middle_index = right / 2
+    max_iteration = right.bit_length()
+    # Check if the item in the middle is the item looked for
+    middle_item = array[middle_index]
+    # counts how many times the while-loop iterates
+    iteration_count = 0
+    if iteration_count is not max_iteration:
+        iteration_count += 1
+        if item is middle_item:
+            return middle_index
+        if item < middle_item:
+            return binary_search_recursive(array, item) / 2
+        elif item > middle_item:
+            difference = right - left
+            return binary_search_recursive(array, item) + difference / 2
     return None
 
 if __name__ == '__main__':
     names = ['Alex', 'Brian', 'Julia', 'Kojin', 'Nabil', 'Nick', 'Winnie']
-    print(binary_search(names, 'Winnie'))
+    # words = open("/usr/share/dict/words", "r")
+    # array = words.read().split()
+    print(binary_search(names, 'Brian'))
