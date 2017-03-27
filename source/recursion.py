@@ -13,9 +13,6 @@ def factorial(n):
 
 
 def factorial_iterative(n):
-    # TODO: implement the factorial function iteratively here
-    # once implemented, change factorial (above) to call factorial_iterative
-    # to verify that your iterative implementation passes all tests below
     # check if n is negative or not an integer (invalid input)
     if n < 0 or not isinstance(n, int):
         raise ValueError('factorial is undefined for n = {}'.format(n))

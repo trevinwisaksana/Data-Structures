@@ -80,17 +80,19 @@ def binary_search_recursive(array, item, left=None, right=None):
     right = len(array)
     # contains the lowest value of the sliced array
     left = 0
-    # Retrieving the index value of the item in the middle of the array
+    # retrieving the index value of the item in the middle of the array
     middle_index = right / 2
+    # max amount of times the array can be divided by two
     max_iteration = right.bit_length()
-    # Check if the item in the middle is the item looked for
+    # check if the item in the middle is the item looked for
     middle_item = array[middle_index]
     # counts how many times the while-loop iterates
     iteration_count = 0
+    if item is middle_item:
+        return middle_index
+    # checks to prevent reaching maximum recursion depth
     if iteration_count is not max_iteration:
         iteration_count += 1
-        if item is middle_item:
-            return middle_index
         if item < middle_item:
             return binary_search_recursive(array, item) / 2
         elif item > middle_item:
