@@ -37,41 +37,53 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    # return binary_search_iterative(array, item)
-    return binary_search_recursive(array, item)
+    return binary_search_iterative(array, item)
+    # return binary_search_recursive(array, item)
 
 
 def binary_search_iterative(array, item):
     # contains the highest value of the sliced array
     upper_index = len(array)
-    # Retrieving the index value of the item in the middle of the array
-    middle_index = upper_index / 2
-    # Check if the item in the middle is the item looked for
-    middle_item = array[middle_index]
+    # contains the lowest value of the sliced array
+    lower_index = 0
     # prevents the while-loop from looping infinitely
     # bit_length finds the number of times a value can be divided by two
     max_iteration = upper_index.bit_length()
+    print('max_iteration', max_iteration)
     # counts how many times the while-loop iterates
     iteration_count = 0
     # loops through to check if the item searched is in the array
-    while item is not middle_item and iteration_count is not max_iteration:
-        # increment the count
-        iteration_count += 1
+    while iteration_count is not max_iteration:
+        print('-------------------')
+        # half of the difference between the upper_index and lower_index
+        difference = upper_index - lower_index
+        print('difference', difference)
+        # Retrieving the index value of the item in the middle of the array
+        middle_index = (difference / 2) + lower_index
+        print('middle_index', middle_index)
+        # set the middle_item with the new middle_index value
+        middle_item = array[middle_index]
+        print('middle_item', middle_item)
+        # checks if the middle_item is what we're looking for
+        # doesn't work with 'is' because it only compares the characters
+        if middle_item == item:
+            print('Found {} at index {}'.format(item, middle_index))
+            return middle_index
         # if the item has a lower ASCII value
         if item < middle_item:
+            # change the upper_index
+            upper_index = middle_index
+            print('upper_index', upper_index)
             # divide the middle_index to find the middle point
             middle_index /= 2
         # if the item has a greater ASCII value
-        if item > middle_item:
-            # difference between the upper_index and the middle_index
-            difference = upper_index - middle_index
-            # half of the difference between the upper_index and middle_index
-            middle_index += difference / 2
-        # set the middle_item with the new middle_index value
-        middle_item = array[middle_index]
-    # checks if the middle item is the one looked for
-    if item is middle_item:
-        return middle_index
+        elif item > middle_item:
+            # update the lower index
+            lower_index = middle_index
+            print('lower_index', lower_index)
+        # increment the count
+        iteration_count += 1
+        print('iteration_count', iteration_count)
     return None
 
 
@@ -100,8 +112,24 @@ def binary_search_recursive(array, item, left=None, right=None):
             return binary_search_recursive(array, item) + difference / 2
     return None
 
+
+def main():
+    import sys
+    args = sys.argv[1:]  # Ignore script file name
+    if len(args) == 1:
+        target = args[0]
+        words_file = open("/usr/share/dict/words", "r")
+        array = words_file.read().split()
+        # array = array[10000:10000 + 20]
+        # for word in array:
+        #     print(repr(word))
+        result = binary_search(array, target)
+        print('binary_search({}) => {}'.format(repr(target), result))
+    else:
+        print('Usage: {} target'.format(sys.argv[0]))
+
+
 if __name__ == '__main__':
-    names = ['Alex', 'Brian', 'Julia', 'Kojin', 'Nabil', 'Nick', 'Winnie']
-    # words = open("/usr/share/dict/words", "r")
-    # array = words.read().split()
-    print(binary_search(names, 'Brian'))
+    main()
+    # names = ['Alex', 'Brian', 'Julia', 'Kojin', 'Nabil', 'Nick', 'Winnie']
+    # print(binary_search(names, 'Julia'))
