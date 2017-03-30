@@ -120,7 +120,8 @@ def main():
         target = args[0]
         words_file = open("/usr/share/dict/words", "r")
         array = words_file.read().split()
-        # array = array[10000:10000 + 20]
+        # array = array[10000:10000 + 200000]
+        print(array[1234])
         # for word in array:
         #     print(repr(word))
         result = binary_search(array, target)

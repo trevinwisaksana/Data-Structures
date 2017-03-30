@@ -1,5 +1,6 @@
 #!python
 
+
 class Node(object):
 
     def __init__(self, data):
@@ -74,7 +75,12 @@ class LinkedList(object):
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index < self.size):
             raise ValueError('List index out of range: {}'.format(index))
-        # TODO: Find the node at the given index and return the node's data
+        # starting point of pointer
+        current = self.head
+        # loop through the LinkedList
+        for current_index in range(index):
+            current = current.next
+        return current.data
 
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
@@ -97,6 +103,8 @@ class LinkedList(object):
             self.tail.next = new_node
         # Update tail to new node regardless
         self.tail = new_node
+        # increment the size
+        self.size += 1
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list"""
@@ -111,6 +119,8 @@ class LinkedList(object):
             new_node.next = self.head
         # Update head to new node regardless
         self.head = new_node
+        # increment the size
+        self.size += 1
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError"""
@@ -152,6 +162,8 @@ class LinkedList(object):
                     previous.next = None
                 # Update tail to the previous node regardless
                 self.tail = previous
+            # decrement the size
+            self.size -= 1
         else:
             # Otherwise raise an error to tell the user that delete has failed
             raise ValueError('Item not found: {}'.format(item))
