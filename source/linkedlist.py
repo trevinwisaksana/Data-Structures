@@ -82,13 +82,49 @@ class LinkedList(object):
             current = current.next
         return current.data
 
+    def get_node_at_index(self, index):
+        """Return the item at the given index in this linked list, or
+        raise ValueError if the given index is out of range of the list size"""
+        # Check if the given index is out of range and if so raise an error
+        if not (0 <= index < self.size):
+            raise ValueError('List index out of range: {}'.format(index))
+        # starting point of pointer
+        current = self.head
+        # loop through the LinkedList
+        for current_index in range(index):
+            current = current.next
+        return current
+
+    def prepend(self, item):
+        """Insert the given item at the head of this linked list"""
+        # Creates a new Node
+        node = Node(item)  # O(1) * 4
+        # Checks if the LinkedList is empty
+        if self.is_empty():  # O(1) constant runtime
+            self.head = node
+            self.tail = node
+        # If a head already exists, create a variable that holds the head
+        # This is so that we can still have access to the items in linked list
+        temp, temp.next = self.head, self.head.next  # O(1) * 4
+        self.head, self.head.next = node, temp  # O(1) * 4
+        self.size += 1
+
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
         raise ValueError if the given index is out of range of the list size"""
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index <= self.size):
             raise ValueError('List index out of range: {}'.format(index))
-        # TODO: Find the node before the given index and insert the item after
+        current_node = self.get_node_at_index(index)
+        new_node = Node(item)
+        if self.is_empty() is True:
+            self.head = new_node
+        elif current_node.next is None:
+            current_node.next = new_node
+        else:
+            node_after = self.get_node_at_index(index + 1)
+            new_node.next = node_after
+            current_node.next = new_node
 
     def append(self, item):
         """Insert the given item at the tail of this linked list"""
