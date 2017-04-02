@@ -84,10 +84,10 @@ class LinkedList(object):
 
     def get_node_at_index(self, index):
         """Return the item at the given index in this linked list, or
-        raise ValueError if the given index is out of range of the list size"""
+        return None if the given index is out of range of the list size"""
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index < self.size):
-            raise ValueError('List index out of range: {}'.format(index))
+            return None
         # starting point of pointer
         current = self.head
         # loop through the LinkedList
@@ -95,36 +95,43 @@ class LinkedList(object):
             current = current.next
         return current
 
-    def prepend(self, item):
-        """Insert the given item at the head of this linked list"""
-        # Creates a new Node
-        node = Node(item)  # O(1) * 4
-        # Checks if the LinkedList is empty
-        if self.is_empty():  # O(1) constant runtime
-            self.head = node
-            self.tail = node
-        # If a head already exists, create a variable that holds the head
-        # This is so that we can still have access to the items in linked list
-        temp, temp.next = self.head, self.head.next  # O(1) * 4
-        self.head, self.head.next = node, temp  # O(1) * 4
-        self.size += 1
-
     def insert_at_index(self, index, item):
         """Insert the given item at the given index in this linked list, or
         raise ValueError if the given index is out of range of the list size"""
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index <= self.size):
             raise ValueError('List index out of range: {}'.format(index))
-        current_node = self.get_node_at_index(index)
+        # creating a node out of the item
         new_node = Node(item)
+        # checks if the linked list is empty
         if self.is_empty() is True:
+            # set the new node as the head and tail
             self.head = new_node
-        elif current_node.next is None:
-            current_node.next = new_node
+            self.tail = new_node
+            # incrementing the size of the linked list
+            self.size += 1
+            return
+        # getting the current node
+        current_node = self.get_node_at_index(index)
+        # if it is inserted at the tail
+        if index == self.size - 1 or index == self.size:
+            self.append(item)
+            return
+        # if it is the head
+        elif current_node is self.head:
+            self.prepend(item)
+            return
         else:
-            node_after = self.get_node_at_index(index + 1)
-            new_node.next = node_after
-            current_node.next = new_node
+            # getting the index value of the previous node
+            previous_node_index = index - 1
+            # getting the previous node
+            previous_node = self.get_node_at_index(previous_node_index)
+            # switching the pointers
+            new_node.next = current_node
+            previous_node.next = new_node
+            # incrementing the size
+            self.size += 1
+            return
 
     def append(self, item):
         """Insert the given item at the tail of this linked list"""
@@ -226,7 +233,7 @@ class LinkedList(object):
 def test_linked_list():
     ll = LinkedList()
     print(ll)
-
+    '''
     print('Appending items:')
     ll.append('A')
     print(ll)
@@ -255,6 +262,34 @@ def test_linked_list():
     print('tail: ' + str(ll.tail))
     print('size: ' + str(ll.size))
     print('length: ' + str(ll.length()))
+    '''
+    print('size: ', ll.size)
+    print('head: ', ll.head)
+    print('tail: ', ll.tail)
+    print(ll)
+    ll.insert_at_index(0, 'B')
+    print('size: ', ll.size)
+    print('head: ', ll.head)
+    print('tail: ', ll.tail)
+    print(ll)
+    ll.insert_at_index(1, 'C')
+    print('size: ', ll.size)
+    print('head: ', ll.head)
+    print('tail: ', ll.tail)
+    print(ll)
+    ll.insert_at_index(0, 'A')
+    print('size: ', ll.size)
+    print('head: ', ll.head)
+    print('tail: ', ll.tail)
+    print(ll)
+
+    '''
+    print(ll)
+    ll.insert_at_index(1, 'C')
+    print(ll)
+    ll.insert_at_index(0, 'A')
+    print(ll)
+    '''
 
 
 if __name__ == '__main__':
