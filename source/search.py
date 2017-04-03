@@ -37,8 +37,8 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+    # return binary_search_iterative(array, item)
+    return binary_search_recursive(array, item)
 
 
 def binary_search_iterative(array, item):
@@ -88,29 +88,27 @@ def binary_search_iterative(array, item):
 
 
 def binary_search_recursive(array, item, left=None, right=None):
-    # contains the highest value of the sliced array
-    right = len(array)
-    # contains the lowest value of the sliced array
-    left = 0
-    # retrieving the index value of the item in the middle of the array
-    middle_index = right / 2
-    # max amount of times the array can be divided by two
-    max_iteration = right.bit_length()
-    # check if the item in the middle is the item looked for
-    middle_item = array[middle_index]
-    # counts how many times the while-loop iterates
-    iteration_count = 0
-    if item is middle_item:
-        return middle_index
-    # checks to prevent reaching maximum recursion depth
-    if iteration_count is not max_iteration:
-        iteration_count += 1
-        if item < middle_item:
-            return binary_search_recursive(array, item) / 2
-        elif item > middle_item:
-            difference = right - left
-            return binary_search_recursive(array, item) + difference / 2
-    return None
+    # Initalizes the left and right once
+    if left is None or right is None:
+        # Set by default as the total number of elements
+        right = len(array)
+        # Lower index which is zero by default
+        left = 0
+    # Difference
+    difference = right - left
+    # Index where the pointer is
+    pointer_index = (difference / 2) + left
+    print('array value ', array[pointer_index])
+    print('item value ', item)
+    # Element being checked
+    item_checked = array[pointer_index]
+    # Check if the middle item is the correct item
+    if item_checked == item:
+        return pointer_index
+    if item < item_checked:
+        return binary_search_recursive(array, item_checked, left=left, right=pointer_index)
+    elif item > item_checked:
+        return binary_search_recursive(array, item_checked, left=pointer_index, right=right)
 
 
 def main():
@@ -118,13 +116,13 @@ def main():
     args = sys.argv[1:]  # Ignore script file name
     if len(args) == 1:
         target = args[0]
-        words_file = open("/usr/share/dict/words", "r")
-        array = words_file.read().split()
+        names = ['Alex', 'Brian', 'Julia', 'Kojin', 'Nabil', 'Nick', 'Winnie']
+        # words_file = open("/usr/share/dict/words", "r")
+        # array = words_file.read().split()
         # array = array[10000:10000 + 200000]
-        print(array[1234])
         # for word in array:
         #     print(repr(word))
-        result = binary_search(array, target)
+        result = binary_search(names, target)
         print('binary_search({}) => {}'.format(repr(target), result))
     else:
         print('Usage: {} target'.format(sys.argv[0]))
