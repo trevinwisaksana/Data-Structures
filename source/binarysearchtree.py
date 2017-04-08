@@ -1,5 +1,6 @@
 #!python
 
+from queue import ArrayQueue
 
 class BinaryNode(object):
 
@@ -145,7 +146,14 @@ class BinarySearchTree(object):
 
     def delete(self, item):
         """Delete node, return None is there's not any"""
-        pass
+        # Getting the node searched
+        node_searched = self._find_node(item)
+        # node_searched's parent
+        node_searched_parent = self._find_parent_node(node_searched.data)
+        # If the node has no children
+        if node_searched.is_leaf():
+
+
 
     def items_in_order(self, node=None, items=None):
         """Return a list of all items in this binary search tree found using
@@ -155,12 +163,12 @@ class BinarySearchTree(object):
             node = self.root
         if items is None:
             items = list()
-        # TODO: Traverse left subtree, if it exists
-        ...
-        # TODO: Add this node's data to the items list
-        ...
-        # TODO: Traverse right subtree, if it exists
-        ...
+        # Traverse left subtree, if it exists
+        self.items_in_order(node=node.left, items=items) if node.left is not None else None
+        # Add this node's data to the items list
+        items.append(node.data)
+        # Traverse right subtree, if it exists
+        self.items_in_order(node=node.right, items=items) if node.right is not None else None
         # Return the items list to the original caller
         return items
 
@@ -172,12 +180,12 @@ class BinarySearchTree(object):
             node = self.root
         if items is None:
             items = list()
-        # TODO: Add this node's data to the items list
-        ...
-        # TODO: Traverse left subtree, if it exists
-        ...
-        # TODO: Traverse right subtree, if it exists
-        ...
+        # Add this node's data to the items list
+        items.append(node.data)
+        # Traverse left subtree, if it exists
+        self.items_pre_order(node=node.left, items=items) if node.left is not None else None
+        # Traverse right subtree, if it exists
+        self.items_pre_order(node=node.right, items=items) if node.right is not None else None
         # Return the items list to the original caller
         return items
 
@@ -189,37 +197,37 @@ class BinarySearchTree(object):
             node = self.root
         if items is None:
             items = list()
-        # TODO: Traverse left subtree, if it exists
-        ...
-        # TODO: Traverse right subtree, if it exists
-        ...
-        # TODO: Add this node's data to the items list
-        ...
+        # Traverse left subtree, if it exists
+        self.items_post_order(node=node.left, items=items) if node.left is not None else None
+        # Traverse right subtree, if it exists
+        self.items_post_order(node=node.right, items=items) if node.right is not None else None
+        # Add this node's data to the items list
+        items.append(node.data)
         # Return the items list to the original caller
         return items
 
     def items_level_order(self):
         """Return a list of all items in this binary search tree found using
         level-order traversal"""
-        # TODO: Create a queue to store nodes not yet traversed in level-order
-        queue = ...
+        # Create a queue to store nodes not yet traversed in level-order
+        queue = ArrayQueue()
         # Create an items list
         items = list()
-        # TODO: Enqueue the root node if this tree is not empty
-        if ...:
-            queue...
-        # TODO: Loop until the queue is empty
-        while ...:
-            # TODO: Dequeue the node at the front of the queue
-            node = ...
-            # TODO: Add this node's data to the items list
-            ...
-            # TODO: Enqueue this node's left child if it exists
-            if ...:
-                ...
-            # TODO: Enqueue this node's right child if it exists
-            if ...:
-                ...
+        # Enqueue the root node if this tree is not empty
+        if self.is_empty() is False:
+            queue.enqueue(self.root)
+        # Loop until the queue is empty
+        while queue.is_empty() is False:
+            # Dequeue the node at the front of the queue
+            node = queue.dequeue()
+            # Add this node's data to the items list
+            items.append(node.data)
+            # Enqueue this node's left child if it exists
+            if node.left is not None:
+                queue.enqueue(node.left)
+            # Enqueue this node's right child if it exists
+            if node.right is not None:
+                queue.enqueue(node.right)
         # Return the items list
         return items
 
@@ -227,8 +235,8 @@ class BinarySearchTree(object):
 def test_binary_search_tree():
     # Create a complete binary search tree of 3, 7, or 15 items in level-order
     # items = [2, 1, 3]
-    # items = [4, 2, 6, 1, 3, 5, 7]
-    items = [1, 1, 1, 1, 1, 1, 1]
+    items = [4, 2, 6, 1, 3, 5, 7]
+    # items = [1, 1, 1, 1, 1, 1, 1]
     # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     print('items: ' + str(items))
 
