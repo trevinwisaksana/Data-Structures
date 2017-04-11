@@ -154,6 +154,20 @@ class TestBinarySearchTree(unittest.TestCase):
         assert bst.root.right.left.data == 5
         assert bst.root.right.right.data == 7
 
+    def test_delete(self):
+        # Create a complete binary search tree of 7 items in level-order
+        items = [4, 2, 6, 1, 3, 5, 7]
+        bst = BinarySearchTree()
+        for item in items:
+            bst.insert(item)
+        # Delete the specific nodes
+        bst.delete(7)
+        assert bst.contains(7) is False
+        bst.delete(2)
+        assert bst.contains(2) is False
+        assert bst.root.left.data == 1
+        assert bst.root.left.left.data is None
+
     def test_items_in_order(self):
         # Create a complete binary search tree of 7 items in level-order
         items = [4, 2, 6, 1, 3, 5, 7]

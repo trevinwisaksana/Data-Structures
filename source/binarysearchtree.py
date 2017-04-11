@@ -152,7 +152,14 @@ class BinarySearchTree(object):
         node_searched_parent = self._find_parent_node(node_searched.data)
         # If the node has no children
         if node_searched.is_leaf():
-
+            # Set the parent's pointer to None
+            if item < node_searched_parent.data:
+                node_searched_parent.left = None
+            elif item > node_searched_parent.data:
+                node_searched_parent.right = None
+        # If it has at least one child
+        if node_searched_parent.is_internal():
+            
 
 
     def items_in_order(self, node=None, items=None):
